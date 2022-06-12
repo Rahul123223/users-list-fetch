@@ -1,19 +1,19 @@
-import logo from "./logo.svg";
-// import './App.css';
-import UsersList from "./components/UsersList";
-import { Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-
-function App() {
+import React from 'react'
+import {UsersList} from './components/UsersList'
+import {Routes,Route} from "react-router-dom"
+import SingleUser from './components/SingleUser'
+import Home from "./components/Home"
+const App = () => {
   return (
-    <div className="App">
+    <div>
       <Routes>
-        <Route path="/" element={<Home></Home>}></Route>
-        <Route path="/users" element={<UsersList></UsersList>}></Route>
+        <Route exact path="/" element={<Home></Home>}></Route>
+        <Route exact path="/users" element={<UsersList />} />
+        <Route exact path="/users:id" element={<SingleUser/>} />
       </Routes>
-      {/* <UsersList></UsersList> */}
+      {/* <UsersList/> */}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

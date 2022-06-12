@@ -1,16 +1,15 @@
 import React from "react";
-// import UsersList from "./UsersList";
 import { useNavigate } from "react-router-dom";
-
+import "./style/home.css"
 const Home = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const showData = () => {
+  const fetchData = () => {
     navigate("/users");
   };
   return (
-    <div>
-      <button onClick={showData}>Get Users Data</button>
+    <div id="btn" >
+      <button  onClick={fetchData}>GET DATA</button>
     </div>
   );
 };

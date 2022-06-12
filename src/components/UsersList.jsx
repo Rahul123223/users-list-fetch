@@ -1,45 +1,39 @@
-// import logo from "./logo.svg";
-import { useEffect, useState } from "react";
-// import "./App.css";
-import "../styles.css"
+import * as React from "react";
+import "./style/styles.css";
 
-function App() {
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    const URL = "https://reqres.in/api/users?page=2";
-    try {
-      const res = await fetch(URL);
-      const data = await res.json();
-      setList(data.data);
-      console.log(data);
-    } catch (err) {
-      console.log("error", err);
-    }
+export function UsersList() {
+  const [users, setUsers] = React.useState([]);
+  const f = async () => {
+    const res = await fetch("https://reqres.in/api/users/");
+    const json = await res.json();
+    setUsers(json.data);
   };
-
+  React.useEffect(() => {
+    f();
+  }, []);
   return (
     <div className="App">
       <div className="flex">
-        {list.map((e, i) => (
-            <div key={i}>
-              <p>
-                <strong>{e.first_name}</strong>
-              </p>
-              <p>{e.email}</p>
-              <img key={e.avatar} src={e.avatar} />
-              <p>
-               <button>{e.id}</button> 
-              </p>
-            </div>
-          ))}
+        {users.length &&
+          users.map((user) => {
+            return (
+              <>
+                <div key={user.id}>
+                  <p>
+                    <strong>{user.first_name}</strong>
+                  </p>
+                  <p>{user.email}</p>
+                  <img key={user.avatar} src={user.avatar} />
+                </div>
+                <div>
+                    <button>
+                        {user.id}
+                    </button>
+                </div>
+              </>
+            );
+          })}
       </div>
     </div>
   );
 }
-
-export default App;
