@@ -1,44 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { singleUserData, userError, userLoading } from "../Redux/action";
+import { useNavigate } from "react-router-dom";
+import "./SingleUser.css";
 
-const SingleUser = () => {
+export default function SingleUser() {
+  const { singleUser } = useSelector((state) => state.user);
   const { id } = useParams();
-  const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const getSingleUserData = () => {
+    dispatch(userLoading);
+    fetch(`https://reqres.in/api/users/${id}`)
+      .then((res) => res.json())
+      .then((res) => dispatch(singleUserData(res.data)))
+      .catch((err) => dispatch(userError()));
+  };
   useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-
-      const response = await fetch(`https://reqres.in/api/users/${id}`);
-      const data = await response.json();
-      setProduct(data);
-      console.log(data);
-
-      setLoading(false);
-    };
-    getProduct();
+    getSingleUserData();
   }, []);
-
-  const Loading = () => {
-    return (
-      <>
-        <h2>Loading.....</h2>
-      </>
-    );
-  };
-
-  const showProduct = () => {
-    return <></>;
-  };
-
   return (
-    <div>
-      <div className="container">
-        <div className="row">{loading ? <Loading /> : <showProduct />}</div>
+    <>
+      <div className="card">
+        {singleUser.map((item) => {
+          return (
+            <div key={item.id}>
+              <img src={item.avatar} alt="Profile" />
+              <div>
+                {item.first_name} {item.last_name}
+              </div>
+              <div>{item.email}</div>
+            </div>
+          );
+        })}
       </div>
-    </div>
+      <button onClick={() => navigate("/")} className="back">
+        Back
+      </button>
+    </>
   );
-};
-
-export default SingleUser;
+}

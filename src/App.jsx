@@ -1,19 +1,18 @@
-import React from 'react'
-import {UsersList} from './components/UsersList'
-import {Routes,Route} from "react-router-dom"
-import SingleUser from './components/SingleUser'
-import Home from "./components/Home"
-const App = () => {
+// import "./App.css";
+// import UserData from "./components/UserData";
+import { Route, Routes } from "react-router-dom";
+import SingleUser from "./components/SingleUser";
+import UsersList from "./components/UsersList";
+
+function App() {
   return (
-    <div>
+    <div className="App">
       <Routes>
-        <Route exact path="/" element={<Home></Home>}></Route>
-        <Route exact path="/users" element={<UsersList />} />
-        <Route exact path="/users:id" element={<SingleUser/>} />
+        <Route path="/" element={<UsersList />}></Route>
+        <Route path="/users/:id" element={<SingleUser />}></Route>
       </Routes>
-      {/* <UsersList/> */}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
